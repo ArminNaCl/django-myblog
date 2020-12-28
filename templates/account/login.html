@@ -1,0 +1,43 @@
+{% extends "base/base.html" %}
+
+{% block title %}Create an Account{% endblock %}
+
+  {% block header %}
+  <header class="masthead" style=background-image:url('../../media/post/img/home-bg.jpg') >
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Maktab Bootcamp</h1>
+            <span class="subheading">
+              - Log in
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  {% endblock header %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <form method="post" action="{% url 'login-url' %}">
+                    {% csrf_token %}
+                    {% include 'component/form.html'  %}
+                </form>
+            </div>
+            <div class="col-12">
+                <a href="{% url 'register-url' %}">Don't have an account?</a>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %} 
+
+
+
+
