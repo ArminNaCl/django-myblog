@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
 from django.contrib.auth.models import PermissionsMixin
+from django.urls import reverse
 
 # Create your models here.
 
@@ -46,6 +47,9 @@ class User (AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
     objects = UserManger()
+
+    def get_absolute_url(self):
+        return reverse("blog-view")
 
     def clean(self):
         self.email = self.__class__.objects.normalize_email(self.email)
