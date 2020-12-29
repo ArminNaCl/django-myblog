@@ -13,12 +13,9 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
-            <h1>Maktab Bootcamp</h1>
+            <h1>{{name}}</h1>
             <span class="subheading">
-              First Django Project
-              {% if author %}
-                - {{author}}                
-              {% endif %}
+              Maktab
             </span>
           </div>
         </div>
@@ -34,9 +31,21 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
+        <hr>
+        <h2 style="text-align:center">SUB CATEGORYS</h2>
+            {% for child in sub %}
+                <div class="post-preview">
+                <a href="{% url "category-url" child.slug %}">
+                <h2 class="post-title">
+                {{child.title}}
+                </h2>
+                </a>
+                </div>
+            {% endfor %}
 
 
-
+         <hr>
+        <h2 style="text-align:center"> POSTS </h2>
         {% for post in posts %}
         <div class="post-preview">
           <a href="{% url "post-url" post.slug %}">

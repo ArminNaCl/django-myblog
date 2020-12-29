@@ -1,0 +1,111 @@
+{% extends "base/base.html" %}
+
+  {% block header %}
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url({{post.image.url}})">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <div class="catgroup">
+                  <span  class="meta">
+                      <a href="{% url 'category-url' post.category.slug %}">{{post.category}}</a>
+                  
+                  {% if post.category.parent %}
+                    |
+                          <a href="{% url 'category-url' post.category.parent.slug %}">{{post.category.parent}}</a>
+                  {% endif %}
+                </span>
+          </div>
+            <h1>{{post.title}}</h1>
+            <h2 class="subheading">{{post.content|truncatewords:7 }}</h2>
+            <span class="meta">Posted by
+              <a href="{% url "user-url" post.author.full_name %}">{{post.author.full_name}}</a>
+              {{ post.create_at |date:"SHORT_DATE_FORMAT" }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {% endblock header %}
+
+  {% block content %}
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          {{post.content}}
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <hr>
+  
+  {% if settings.allow_discussion %}
+      <!-- {% if post.post_setting.comment %}
+        hi its so bad
+      {% endif %} -->
+      {% if settings.comment %}
+          <form action="{% url 'post-url' post.slug %}" method="post" class: "form-group floating-label-form-group controls">
+              {% csrf_token %}
+              {% include 'component/form.html'  with form=form %}
+          </form>
+          <hr>
+      {% endif %}
+      <div>
+          {% for comment in comments %}
+              <div>
+                 <h5> <b>{{ comment.author.full_name }}  : </b> </h5> 
+                  <div class ="mt-3">
+                      {{ comment.content }}
+                      disslike :
+                      <div class = "diss_like_count_container"> {{comment.diss_like_count}} </div>
+                      <br>
+                      Like :
+
+                      <div class = "like_count_container"> {{comment.like_count}} </div>
+                      <div>
+                        <button onclick="likeComment({{comment.id}})">
+                          like
+                        </button>
+                        <button onclick="likeComment({{comment.id}}, false)">
+                          dislike
+                        </button>
+                      </div>
+                  </div>
+                  <div>
+                    <p style ="text-align:right;">{{ comment.create_at |date:"SHORT_DATE_FORMAT" }}</p>
+                    
+                  </div>
+              </div>
+              <hr>
+          {% endfor %}
+      </div>
+  {% endif %}
+  </div>
+  {% comment %} {% block javascript %}
+  <script>
+    function likeComment(commentID ,condition = true){
+      const data = JSON.stringify({comment_id:commentID, condition})
+      $.ajax(
+        type: "post",
+        url: "{%url 'like_comment' %}",
+        data: data ,
+        success: function(response){
+          const data = JSON.parse(response)
+          $('#like_count_container').text(data.like_count)
+          $('diss_like_count_container').text(data.diss_like_count)
+          console.log(response)
+        }
+      );
+    }
+  </script>
+
+  {% endblock%} {% endcomment %}
+
+  {% endblock content %}
+
+

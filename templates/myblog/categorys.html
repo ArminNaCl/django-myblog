@@ -15,10 +15,8 @@
           <div class="site-heading">
             <h1>Maktab Bootcamp</h1>
             <span class="subheading">
-              First Django Project
-              {% if author %}
-                - {{author}}                
-              {% endif %}
+               Categorys
+
             </span>
           </div>
         </div>
@@ -37,9 +35,9 @@
 
 
 
-        {% for post in posts %}
+        {% for post in categorys %}
         <div class="post-preview">
-          <a href="{% url "post-url" post.slug %}">
+          <a href="{% url "category-url" post.slug %}">
             <h2 class="post-title">
               {{post.title}}
             </h2>
@@ -47,9 +45,6 @@
               {{post.content|truncatewords:12 }}
             </h3>
           </a>
-          <p class="post-meta">Posted by
-            <a href="{% url "user-url" post.author.full_name %} ">{{post.author.full_name}}</a>
-            {{ post.create_at |date:"SHORT_DATE_FORMAT" }}</p>
         </div>
         <hr>
         {% endfor%}
@@ -61,7 +56,7 @@
         <hr>
         <!-- Pager -->
         <div class="clearfix">
-          {% include "component/pagination.html" with page=posts %}
+          {% include "component/pagination.html" with page=categorys %}
         </div>
       </div>
     </div>
