@@ -11,19 +11,19 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href='#'>Home</a>
+            <a class="nav-link" href="{% url 'blog-url' %}">Home</a>
           </li>
           <li class=" nav-item dropdown">
-              <a class=" nav-link  " href="#">Categorys</a> 
+              <a class=" nav-link  " href="{% url 'categories-url' %}">Categorys</a> 
 
           </li>
           {% if not request.user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="#">Register/login</a> 
+            <a class="nav-link" href= "{% url 'register-url' %}" >Register/login</a> 
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="#">Log out</a> 
+            <a class="nav-link" href="{% url 'logout-url'  %}">Log out</a> 
           </li>
           {% endif %}
         </ul>

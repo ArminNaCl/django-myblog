@@ -2,14 +2,18 @@ from django.shortcuts import render
 from django.views.generic.list import ListView , MultipleObjectMixin
 from django.views.generic import DetailView ,FormView
 from django.views.generic.edit import ModelFormMixin 
-
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.http import HttpResponse
 
 
 # Create your views here.
 
 from .models import (
     Post,
-    Category
+    Category,
+    CommentLike,
+    Comment
 )
 
 from .forms import CommentForm
@@ -37,8 +41,13 @@ class UserView(ListView):
     template_name = 'myblog/index.html'
 
 
-
-
+@csrf_exempt
+def like_comment(request):
+    data = json.loads(request.body)
+    user = request.user
+    comment_ob = Comment.objects.get(id= data['comment_id'])
+    CommentLike.objects.create(author=user,condition = data['condition'],comment= comment_ob)
+    return HttpResponse('ok',status=201)
 
 
 class SingleView(ModelFormMixin,DetailView):

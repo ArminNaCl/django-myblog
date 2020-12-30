@@ -61,19 +61,16 @@
                  <h5> <b>{{ comment.author.full_name }}  : </b> </h5> 
                   <div class ="mt-3">
                       {{ comment.content }}
-                      disslike :
-                      <div class = "diss_like_count_container"> {{comment.diss_like_count}} </div>
-                      <br>
-                      Like :
 
-                      <div class = "like_count_container"> {{comment.like_count}} </div>
                       <div>
-                        <button onclick="likeComment({{comment.id}})">
+                        <button class="btn btn-primary"  onclick="likeComment({{comment.id}})">
                           like
                         </button>
-                        <button onclick="likeComment({{comment.id}}, false)">
+                        <span id='btn-like'>({{comment.like_count}})</span>
+                        <button class="btn btn-primary"  onclick="likeComment({{comment.id}}, false)">
                           dislike
                         </button>
+                        <span id='btn-dislike'>({{comment.dislike_count}})</span>
                       </div>
                   </div>
                   <div>
@@ -86,25 +83,24 @@
       </div>
   {% endif %}
   </div>
-  {% comment %} {% block javascript %}
+  {% block javascript %}
   <script>
     function likeComment(commentID ,condition = true){
       const data = JSON.stringify({comment_id:commentID, condition})
-      $.ajax(
+      $.ajax({
         type: "post",
         url: "{%url 'like_comment' %}",
         data: data ,
         success: function(response){
-          const data = JSON.parse(response)
-          $('#like_count_container').text(data.like_count)
-          $('diss_like_count_container').text(data.diss_like_count)
+          $('#btn-like').text(data.like_count);
+          $('#btn-dislike').html('{{data.dislike_count}}');
           console.log(response)
         }
-      );
+      });
     }
   </script>
 
-  {% endblock%} {% endcomment %}
+  {% endblock%}
 
   {% endblock content %}
 

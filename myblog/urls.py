@@ -5,6 +5,7 @@ from .views import(
     UserView,
     CategoryListView,
     CategoryView,
+    like_comment
 )
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path('blog/categories/<slug:category>',CategoryView.as_view() ,name="category-url"),
     path('blog/<slug:slug>',SingleView.as_view(), name = 'post-url'),
     path('user/<slug:author>',UserView.as_view(),name ='user-url'),
+    path('blog/like/',like_comment, name ="like_comment"),
 ]
