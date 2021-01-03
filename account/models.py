@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
 from django.contrib.auth.models import PermissionsMixin
-from django.urls import reverse
+from django.urls import reverse 
 
 # Create your models here.
 
@@ -39,17 +39,19 @@ class User (AbstractBaseUser, PermissionsMixin):
     # avatar = models.ImageField(_("Avatar"), upload_to = 'user/avatar', blank = True)
     full_name = models.CharField(_("Full Name"), max_length= 60 ,default=' ')
     is_staff = models.BooleanField(_("staff_status") , default=False)
+    is_superuser = models.BooleanField(_("superuser"),default=False)
     create_at = models.DateTimeField(_("Creat at") , auto_now=True)
     update_at = models.DateTimeField(_('Last update'),auto_now=True)
 
 
+    is_active = True
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
     objects = UserManger()
 
-    def get_absolute_url(self):
-        return reverse("blog-view")
+    # def get_absolute_url(self):
+    #     return reverse("blog-view")
 
     def clean(self):
         self.email = self.__class__.objects.normalize_email(self.email)

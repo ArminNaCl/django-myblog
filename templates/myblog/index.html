@@ -17,7 +17,7 @@
             <span class="subheading">
               First Django Project
               {% if author %}
-                - {{author}}                
+                - {{author.full_name}}                
               {% endif %}
             </span>
           </div>
@@ -48,7 +48,7 @@
             </h3>
           </a>
           <p class="post-meta">Posted by
-            <a href="{% url "user-url" post.author.full_name %} ">{{post.author.full_name}}</a>
+            <a href="{% url "user-url" post.author.id %} ">{{post.author.full_name}}</a>
             {{ post.create_at |date:"SHORT_DATE_FORMAT" }}</p>
         </div>
         <hr>

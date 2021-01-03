@@ -6,10 +6,12 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = {'content',}
-        labels = {'content':_('content') }
+        labels = {'content':_('Comment') }
         help_text = {
                     'content' :_("enter your comment about this post"),
         }
+        
         widgets={
             'content': forms.Textarea(attrs={'class':"form-control"}),
+
         }

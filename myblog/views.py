@@ -5,6 +5,9 @@ from django.views.generic.edit import ModelFormMixin
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import HttpResponse
+from django.contrib.auth import get_user_model 
+
+User = get_user_model()
 
 
 # Create your views here.
@@ -19,7 +22,7 @@ from .models import (
 from .forms import CommentForm
 
 class PostListView(ListView):
-    queryset =Post.objects.all()     #filter(draft=False)
+    queryset =Post.objects.all()     
     context_object_name = 'posts'
     paginate_by = 3
     template_name = 'myblog/index.html'
@@ -29,11 +32,11 @@ class UserView(ListView):
 
     def get_queryset(self):
         author_ = self.kwargs.get("author")
-        queryset = Post.objects.filter(author__full_name = author_)
+        queryset = Post.objects.filter(author__id = author_)
         return queryset
     def get_context_data(self):
         context = super().get_context_data()
-        context['author']= self.kwargs.get("author")
+        context['author']= User.objects.get(id=self.kwargs.get("author"))
         return context
 
     context_object_name ='posts'
@@ -99,3 +102,4 @@ class CategoryView(ListView):
         context['name'] = category
         context['sub'] = Category.objects.filter(parent__slug=category)
         return context
+

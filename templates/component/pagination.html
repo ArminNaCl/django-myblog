@@ -1,11 +1,11 @@
 <div class = "pagination">
     <span class = "step-links">
-        {% if page.has_previous %}
-            <a class="btn btn-primary float-left" href="?page = {{ page.previous_page_number }}">Previous</a>
+        {% if page_obj.has_previous %}
+            <a class="btn btn-primary float-left" href="?page = {{ page_obj.previous_page_number }}">Previous</a>
         {% endif %}
      
-        {% if page.has_next %}
-            <a class="btn btn-primary float-right" href="?page={{ page.next_page_number }}">Next</a>
+        {% if page_obj.has_next %}
+            <a class="btn btn-primary float-right" href="?page={{ page_obj.next_page_number }}">Next</a>
         {% endif %}
         
     </span> 

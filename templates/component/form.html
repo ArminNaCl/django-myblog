@@ -2,8 +2,8 @@
 
 {% for field in form %}
     <div class="form-group">
-        {{ field.label_tag }}   
-        <input class="form-control" id="{{ field.id_for_label }}" maxlength="120" name="{{ field.html_name }}"   /> 
+        {{ field.label_tag }}   {{field}}
+        {% comment %} <input class="form-control" id="{{ field.id_for_label }}" maxlength="120" name="{{ field.html_name }}"   />  {% endcomment %}
         {% if field.help_text %}
             <small class="form-text text-muted">{{ field.help_text|safe }}</small>
         {% endif %}

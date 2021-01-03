@@ -1,23 +1,40 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import User
 from django.utils.translation import ugettext_lazy as _
-class UserRegistrationForm (forms.ModelForm):
+from django.contrib.auth import password_validation ,  get_user_model 
+from django.contrib.auth.forms import UserCreationForm ,AuthenticationForm ,UsernameField
+
+User = get_user_model()
+
+
+        
+
+
+class UserRegistrationForm (UserCreationForm ) :
+    email= forms.EmailField(max_length=120 ,widget=forms.EmailInput(attrs={'class':"form-control"}))
+    password1 = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password','class':"form-control"}),
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    password2 = forms.CharField(
+        label=_("Password confirmation"),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password' ,'class':"form-control"}),
+        strip=False,
+        help_text=_("Enter the same password as before, for verification."),
+    )
     class Meta:
-        model =  User
-        fields = {'email', 'full_name' , 'password'}
-        labels= {'email': _("Email"), 'full_name': _("Name"), 'password': _("Password")}
-        help_texts = {
-                    'email': _("Enter your Email"),
-                    'full_name': _("Enter your name")
-        }
+        model = User
+        fields ={'email','full_name','password1','password2'}
         widgets={
-            'email' : forms.TextInput(attrs={'class':"form-control"}),
-            'password' : forms.PasswordInput(attrs={'class':"form-control"}),
             'full_name' : forms.TextInput(attrs={'class':"form-control"}),
         }
-        
-class UserLoginForm(forms.Form):
-        email = forms.EmailField(max_length=60 )
-        password = forms.CharField( max_length=60 )   
 
+class UserLoginForm(AuthenticationForm):
+    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True,'class':"form-control"}))
+    password = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password','class':"form-control"}),
+    )

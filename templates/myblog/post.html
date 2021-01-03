@@ -21,7 +21,7 @@
             <h1>{{post.title}}</h1>
             <h2 class="subheading">{{post.content|truncatewords:7 }}</h2>
             <span class="meta">Posted by
-              <a href="{% url "user-url" post.author.full_name %}">{{post.author.full_name}}</a>
+              <a href="{% url "user-url" post.author.id %}">{{post.author.full_name}}</a>
               {{ post.create_at |date:"SHORT_DATE_FORMAT" }}</span>
           </div>
         </div>
