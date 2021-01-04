@@ -1,0 +1,81 @@
+{% extends "base/base.html" %}
+
+
+
+<body>
+
+
+
+  {% block header %}
+  <header class="masthead" style=background-image:url('../../media/post/img/home-bg.jpg') >
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Maktab Bootcamp</h1>
+            <span class="subheading">
+
+               {{month |date:"Y-M"}}                
+
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  {% endblock header %}
+  <!-- Page Header -->
+
+
+  {% block content %}
+      <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+
+
+
+        {% for post in posts %}
+        <div class="post-preview">
+          <a href="{% url "post-url" post.slug %}">
+            <h2 class="post-title">
+              {{post.title}}
+            </h2>
+            <h3 class="post-subtitle">
+              {{post.content|truncatewords:12 }}
+            </h3>
+          </a>
+          <p class="post-meta">Posted by
+            <a href="{% url "user-url" post.author.id %} ">{{post.author.full_name}}</a>
+            {{ post.create_at |date:"SHORT_DATE_FORMAT" }}</p>
+        </div>
+        <hr>
+        {% endfor%}
+
+
+
+
+
+        <hr>
+        <!-- Pager -->
+        <div class="clearfix">
+            <p>
+                {% if previous_month %}
+                    <a class="btn btn-primary float-left" href="{% url "archive_month_numeric" previous_month.year previous_month.month %}">{{ previous_month|date:"F Y" }}</a>
+                {% endif %}
+                {% if next_month %}
+                    <a class="btn btn-primary float-right" href="{% url "archive_month_numeric" next_month.year next_month.month %}">{{ next_month|date:"F Y" }}</a>
+                {% endif %}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock content %}
+
+
+  <hr>
+</body>
+
+

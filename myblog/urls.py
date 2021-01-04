@@ -5,7 +5,9 @@ from .views import(
     UserView,
     CategoryListView,
     CategoryView,
-    like_comment
+    like_comment,
+    BlogMounthArchive,
+    BlogWeekArchive,
 )
 
 # from django.conf.urls import url
@@ -20,9 +22,12 @@ urlpatterns = [
     path('blog/<slug:slug>',SingleView.as_view(), name = 'post-url'),
     path('user/<int:author>',UserView.as_view(),name ='user-url'),
     path('blog/like/',like_comment, name ="like_comment"),
-    # path('archive/',
-    #     ArchiveIndexView.as_view(model=Post, date_field="pub_date"),
-    #     name="article_archive"),
+    path('<int:year>/<int:month>/',
+         BlogMounthArchive.as_view(month_format='%m'),
+         name="archive_month_numeric"),
+    path('<int:year>/week/<int:week>/',
+         BlogWeekArchive.as_view(),
+         name="archive_week"),
 
 ]
 

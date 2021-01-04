@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model 
+from django.views.generic import MonthArchiveView , WeekArchiveView
 
 User = get_user_model()
 
@@ -103,3 +104,16 @@ class CategoryView(ListView):
         context['sub'] = Category.objects.filter(parent__slug=category)
         return context
 
+class BlogMounthArchive(MonthArchiveView):
+    queryset = Post.objects.all()
+    date_field = "create_at"
+    allow_future = False
+    context_object_name = 'posts'
+    template_name = 'myblog/month_archive.html'
+
+class BlogWeekArchive(WeekArchiveView):
+    queryset = Post.objects.all()
+    date_field = "create_at"
+    allow_future = False
+    context_object_name = 'posts'
+    template_name = 'myblog/week_archive.html'  
