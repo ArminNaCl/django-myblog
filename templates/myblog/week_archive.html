@@ -60,14 +60,14 @@
         <hr>
         <!-- Pager -->
         <div class="clearfix">
-            {% comment %} <p>
-                {% if previous_month %}
-                    <a class="btn btn-primary float-left" href="{% url "archive_month_numeric" previous_month.year previous_month.month %}">{{ previous_month|date:"F Y" }}</a>
+            <p>
+                {% if previous_week %}
+                    <a class="btn btn-primary float-left" href="{% url "archive_week" previous_week.year previous_week.week %}">{{ previous_week|date:"Y-W" }}</a>
                 {% endif %}
-                {% if next_month %}
-                    <a class="btn btn-primary float-right" href="{% url "archive_month_numeric" next_month.year next_month.month %}">{{ next_month|date:"F Y" }}</a>
+                {% if next_week %}
+                    <a class="btn btn-primary float-right" href="{% url "archive_week" next_week.year next_week.week %}">{{ next_week|date:"Y-W" }}</a>
                 {% endif %}
-            </p> {% endcomment %}
+            </p>
         </div>
       </div>
     </div>
