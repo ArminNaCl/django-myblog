@@ -28,6 +28,7 @@ from account.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('myblog.urls')),
+    path('api/',include('myblog.APIUrls')),
     path('register/', RegisteritionView.as_view(), name='register-url' ),
     path('login/' , LoginView.as_view(), name = 'login-url'),
     path('logout/', LogoutView.as_view(), name= 'logout-url'),

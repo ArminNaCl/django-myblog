@@ -37,6 +37,11 @@ class Post(models.Model):
         verbose_name = _("Post")
         verbose_name_plural = _("Posts")
         ordering = ['-publish_time']
+        
+    @property
+    def commentCount(self):
+        q = self.comments.all()
+        return q.count() 
 
     def __str__(self):
         return self.title

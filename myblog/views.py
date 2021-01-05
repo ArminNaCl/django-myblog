@@ -7,6 +7,7 @@ import json
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model 
 from django.views.generic import MonthArchiveView , WeekArchiveView
+from django.db.models import Q
 
 User = get_user_model()
 
@@ -117,3 +118,24 @@ class BlogWeekArchive(WeekArchiveView):
     allow_future = False
     context_object_name = 'posts'
     template_name = 'myblog/week_archive.html'  
+
+class BigComments(ListView):
+    context_object_name = 'posts'
+    template_name = 'myblog/most.html'
+    def get_queryset(self):
+        queryset =Post.objects.all()
+        queryset = sorted(queryset, key=lambda post: post.commentCount,reverse=True)
+        print('a',queryset)
+        return queryset
+
+def get_blog_queryset(query=None):
+    queryset = list()
+    queries = query.split(" ")
+    for q in queries:
+        posts = Post.objects.filter(
+            Q(title__icontrains=q),
+            Q(content__icontrains=q)
+        ).distinct()
+        for post in posts:
+            queryset.append(post)
+    return list(set(queryset))
