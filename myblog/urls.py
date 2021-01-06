@@ -8,7 +8,8 @@ from .views import(
     like_comment,
     BlogMounthArchive,
     BlogWeekArchive,
-    BigComments
+    BigComments,
+    SearchView,
 )
 
 # from django.conf.urls import url
@@ -21,6 +22,7 @@ urlpatterns = [
     path('blog/categories', CategoryListView.as_view(), name="categories-url"),
     path('blog/categories/<slug:category>',CategoryView.as_view() ,name="category-url"),
     path('blog/as',BigComments.as_view(),name='most_comment'),
+    path('blog/search/', SearchView.as_view(), name='search'),
     path('blog/<slug:slug>',SingleView.as_view(), name = 'post-url'),
     path('user/<int:author>',UserView.as_view(),name ='user-url'),
     path('blog/like/',like_comment, name ="like_comment"),

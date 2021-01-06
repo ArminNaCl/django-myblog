@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.contrib.auth import get_user_model 
 from django.views.generic import MonthArchiveView , WeekArchiveView
 from django.db.models import Q
+from django.views.generic import TemplateView
 
 User = get_user_model()
 
@@ -28,6 +29,9 @@ class PostListView(ListView):
     context_object_name = 'posts'
     paginate_by = 3
     template_name = 'myblog/index.html'
+    # def get(self,requist):
+    #     query = request.GET
+
 
 
 class UserView(ListView):
@@ -125,17 +129,18 @@ class BigComments(ListView):
     def get_queryset(self):
         queryset =Post.objects.all()
         queryset = sorted(queryset, key=lambda post: post.commentCount,reverse=True)
-        print('a',queryset)
         return queryset
 
-def get_blog_queryset(query=None):
-    queryset = list()
-    queries = query.split(" ")
-    for q in queries:
-        posts = Post.objects.filter(
-            Q(title__icontrains=q),
-            Q(content__icontrains=q)
-        ).distinct()
-        for post in posts:
-            queryset.append(post)
-    return list(set(queryset))
+
+class SearchView(ListView):
+    template_name = 'component/search.html'
+    context_object_name = 'posts'
+    def get(self, request, *args, **kwargs):
+        q = request.GET.get('q', '')
+        self.results = Post.objects.filter(
+            Q(title__icontains=q)
+        )
+        self.results =list(set(self.results))
+        return super().get(request, *args, **kwargs)
+    def get_queryset(self):
+        return self.results
