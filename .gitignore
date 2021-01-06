@@ -238,6 +238,9 @@ dmypy.json
 
 /venv/
 venv
+static/
+static
+static/*
 
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,vscode,linux
