@@ -1,8 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from myblog.models import Post
-from myblog.serializers import PostSerializer2
 from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework.views import APIView
@@ -10,7 +8,23 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import mixins
 from rest_framework import generics
+
+
 from rest_framework.viewsets import ModelViewSet
+from myblog.models import Post,Category,Comment
+from myblog.serializers import PostSerializer2,CommentSerializer,CategorySerializer
+
+class PostViewSet(ModelViewSet):
+    serializer_class = PostSerializer2
+    queryset = Post.objects.all()
+
+class CategoryViewSet(ModelViewSet):
+    serializer_class= CategorySerializer
+    queryset = Category.objects.all()
+
+class CommentViewSet(ModelViewSet):
+    serializer_class= CommentSerializer
+    queryset = Comment.objects.all()
 
 
 class PostListMixin(mixins.CreateModelMixin, mixins.ListModelMixin,generics.GenericAPIView ):
@@ -40,16 +54,9 @@ class PostListGenerics(generics.ListCreateAPIView):
     queryset= Post.objects.all()
     serializer_class = PostSerializer2
 
-
 class PostDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
     queryset= Post.objects.all()
     serializer_class = PostSerializer2   
-
-class PostViewSet(ModelViewSet):
-    serializer_class = PostSerializer2
-    queryset = Post.objects.all()
-
-
 
 class PostListView(APIView):
     def get(self, request, format=None):
