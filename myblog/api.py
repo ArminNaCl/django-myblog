@@ -19,14 +19,14 @@ class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer2
     queryset = Post.objects.all()
 
-    @action(detail=True,method=['GET'])
+    @action(detail=True,methods=['GET'])
     def comments(self,request,pk=None):
         post = self.get_object()
         comments = post.comments.all()
         serialaizer = CommentSerializer(comments,many=True)
         return Response(serialaizer.data)
 
-    @action(detail=False,method=['GET'])
+    @action(detail=False,methods=['GET'])
     def get_published(self,request):
         queryset = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(queryset,many=True)
