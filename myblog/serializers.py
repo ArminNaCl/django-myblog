@@ -1,7 +1,10 @@
 from rest_framework import serializers
 from .models import Post,Category ,Comment
 from django.contrib.auth import get_user_model
+from account.serializers import UserSerializer
 User =get_user_model()
+
+
 
 class PostSerializer(serializers.Serializer):
     id = serializers.IntegerField(label='ID', read_only=True)
@@ -43,6 +46,7 @@ class PostSerializer(serializers.Serializer):
         return instance
 
 class PostSerializer2(serializers.ModelSerializer):
+    author_detail =   UserSerializer(source = "author",read_only=True)
     class Meta:
         model = Post
         fields = '__all__'

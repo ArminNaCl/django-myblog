@@ -1,5 +1,7 @@
-from django.urls import path
+from django.urls import path ,include
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework.routers import DefaultRouter
+router =DefaultRouter()
 from .api import (
     # post_detail,
     # post_list,
@@ -15,7 +17,7 @@ from .api import (
     CommentViewSet,
     CategoryViewSet
 )
-
+router.register(r'posts',PostViewSet)
 post_list = PostViewSet.as_view({
     'get': 'list',
     'post': 'create'
@@ -61,12 +63,13 @@ urlpatterns = [
     # path('generics/posts/<int:pk>',PostDetailGenerics.as_view(),name= "post-detail-generics" ),
 
 
-    path('posts/',post_list,name="post-list-api"),
-    path('posts/<int:pk>/',post_detail,name="post-detail-api"),
+    # path('posts/',post_list,name="post-list-api"),
+    # path('posts/<int:pk>/',post_detail,name="post-detail-api"),
     path('comments/',comment_list,name="comment-list-api"),
     path('comments/<int:pk>/',comment_detail,name = "comment-detail-api"),
     path('categories/',category_list,name="category-list-api"),
     path('categories/<int:pk>/',category_detail,name="category-detail-api"),
+    path('',include(router.urls)),
 
 ]
 

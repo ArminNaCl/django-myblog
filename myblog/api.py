@@ -13,10 +13,24 @@ from rest_framework import generics
 from rest_framework.viewsets import ModelViewSet
 from myblog.models import Post,Category,Comment
 from myblog.serializers import PostSerializer2,CommentSerializer,CategorySerializer
+from rest_framework.decorators import action
 
 class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer2
     queryset = Post.objects.all()
+
+    @action(detail=True,method=['GET'])
+    def comments(self,request,pk=None):
+        post = self.get_object()
+        comments = post.comments.all()
+        serialaizer = CommentSerializer(comments,many=True)
+        return Response(serialaizer.data)
+
+    @action(detail=False,method=['GET'])
+    def get_published(self,request):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset,many=True)
+        return Response(serializer.data)
 
 class CategoryViewSet(ModelViewSet):
     serializer_class= CategorySerializer
