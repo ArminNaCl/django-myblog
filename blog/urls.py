@@ -17,6 +17,11 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import path , include
 from django.conf.urls.static import static
+from rest_framework.routers import DefaultRouter
+from account.api import UserViewSet
+
+router = DefaultRouter()
+router.register('user',UserViewSet)
 
 
 from account.views import (
@@ -28,8 +33,9 @@ from account.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('myblog.urls')),
+    path('api-auth/',include('rest_framework.urls')),
     path('api/',include('myblog.APIUrls')),
-    path('api/',include('account.APIUrls')),
+    path('api/',include(router.urls)),
     path('register/', RegisteritionView.as_view(), name='register-url' ),
     path('login/' , LoginView.as_view(), name = 'login-url'),
     path('logout/', LogoutView.as_view(), name= 'logout-url'),

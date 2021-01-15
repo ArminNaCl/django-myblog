@@ -14,10 +14,16 @@ from rest_framework.viewsets import ModelViewSet
 from myblog.models import Post,Category,Comment
 from myblog.serializers import PostSerializer2,CommentSerializer,CategorySerializer
 from rest_framework.decorators import action
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+#from rest_framework.permissions import IsAuthenticated
+from .permissions import MyBasePermission
 
 class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer2
     queryset = Post.objects.all()
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
+    permission_classes = [MyBasePermission]
 
     @action(detail=True,methods=['GET'])
     def comments(self,request,pk=None):
