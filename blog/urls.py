@@ -30,6 +30,11 @@ from account.views import (
     LogoutView
 )
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('myblog.urls')),
@@ -39,6 +44,8 @@ urlpatterns = [
     path('register/', RegisteritionView.as_view(), name='register-url' ),
     path('login/' , LoginView.as_view(), name = 'login-url'),
     path('logout/', LogoutView.as_view(), name= 'logout-url'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
